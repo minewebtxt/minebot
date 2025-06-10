@@ -14,15 +14,15 @@
     color: #fff;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
     padding: 20px;
   }
 
   .container {
-    background: rgba(30, 0, 50, 0.8);
+    background: rgba(30, 0, 50, 0.85);
     border-radius: 15px;
-    max-width: 400px;
+    max-width: 480px;
     width: 100%;
     padding: 30px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
@@ -62,7 +62,58 @@
     box-shadow: 0 8px 25px rgba(115, 45, 145, 0.9);
   }
 
-  @media (max-width: 450px) {
+  /* Tabs */
+
+  .tabs {
+    margin-top: 30px;
+    text-align: left;
+  }
+
+  .tab-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .tab-buttons button {
+    background: #8e44ad;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .tab-buttons button.active,
+  .tab-buttons button:hover {
+    background: #732d91;
+  }
+
+  .tab-content {
+    background: rgba(50, 10, 70, 0.8);
+    padding: 15px 20px;
+    border-radius: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  /* Scrollbar for tab content */
+  .tab-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .tab-content::-webkit-scrollbar-thumb {
+    background-color: #9b59b6;
+    border-radius: 3px;
+  }
+
+  /* Responsive */
+  @media (max-width: 500px) {
     h1 {
       font-size: 2.5rem;
     }
@@ -72,6 +123,14 @@
     a.button {
       font-size: 1.1rem;
       padding: 12px 30px;
+    }
+    .tab-buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tab-buttons button {
+      width: 100%;
+      padding: 12px 0;
     }
   }
 </style>
@@ -88,6 +147,45 @@
     >
       Adicionar ao Discord
     </a>
+
+    <div class="tabs">
+      <div class="tab-buttons">
+        <button class="active" data-tab="terms">Termos de Uso</button>
+        <button data-tab="privacy">Política de Privacidade</button>
+      </div>
+      <div id="terms" class="tab-content" style="display: block;">
+        <h3>Termos de Uso</h3>
+        <p>Bem-vindo ao Mine⭐! Ao utilizar este bot, você concorda em usá-lo de maneira responsável e conforme as regras do Discord. O autor não se responsabiliza por qualquer dano direto ou indireto decorrente do uso do bot.</p>
+        <p>Você deve respeitar as leis locais e os termos do Discord ao usar o Mine⭐. É proibido usar o bot para fins ilegais, assédio, spam ou qualquer comportamento que viole as diretrizes da plataforma.</p>
+      </div>
+      <div id="privacy" class="tab-content" style="display: none;">
+        <h3>Política de Privacidade</h3>
+        <p>O Mine⭐ coleta apenas os dados essenciais para funcionamento dos comandos e para garantir a segurança do bot.</p>
+        <p>Não armazenamos informações pessoais dos usuários fora do necessário para operação e não compartilhamos dados com terceiros.</p>
+        <p>Para mais informações, entre em contato com o desenvolvedor.</p>
+      </div>
+    </div>
   </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.tab-buttons button');
+    const contents = document.querySelectorAll('.tab-content');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const target = btn.getAttribute('data-tab');
+        contents.forEach(c => {
+          if(c.id === target) {
+            c.style.display = 'block';
+          } else {
+            c.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
